@@ -4,9 +4,9 @@ import com.example.CRUDCarApp.dto.CarDTO;
 import com.example.CRUDCarApp.model.Car;
 import com.example.CRUDCarApp.repo.CarRepo;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CarService {
@@ -26,8 +26,17 @@ public class CarService {
         return modelMapper.map(car, CarDTO.class); // take the car entity and convert it into CarDTO, return it
     }
 
-    public List<CarDTO> getAll() {
-        return carRepo.findAll().stream().map(car -> modelMapper.map(car, CarDTO.class)).toList();
+    public Page<CarDTO> getAll(String make, Pageable pageable) {
+
+        Page<Car> carPage;
+
+        if (make != null && !make.isEmpty()) {
+            carPage = carRepo.findByMakeContainingIgnoreCase(make, pageable);
+        } else {
+            carPage = carRepo.findAll(pageable);
+        }
+
+        return carPage.map(car -> modelMapper.map(car, CarDTO.class));
     }
 
     public CarDTO create(CarDTO carDTO) {
