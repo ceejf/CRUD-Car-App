@@ -17,6 +17,10 @@ CAR CRUD APP
 - Input validation using @Valid and Hibernate Validator annotations
 - Global exception handling (@RestControllerAdvice) for 400 and 500 errors
 - RESTful API design with proper HTTP status codes
+- Supports pagination
+- Supports filtering by car make
+- Supports dynamic sorting
+
 
 
 
@@ -36,6 +40,8 @@ Packages:
 
 **************** API Endpoints ****************
 | Method | Endpoint | Description |
+
+| GET | /cars?make=&page=0&size=5&sortBy=type&direction=asc | Get cars with filtering, pagination and sorting |
 
 | GET | /cars | Get all cars |
 
